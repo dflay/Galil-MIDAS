@@ -1,6 +1,0 @@
-/dev/ttyUSB0, DMC4163 Rev 1.2
-Example GCommand() usage
- 0, 0, 0, 0, 0, 0
-:
-20
-1
