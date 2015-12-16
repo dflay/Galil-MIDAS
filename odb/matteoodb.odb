@@ -1,0 +1,601 @@
+[/Experiment/Security]
+Enable non-localhost RPC = BOOL : n
+
+[/Experiment/Security/RPC ports]
+mhttpd = DWORD : 0
+ODBEdit = DWORD : 0
+Logger = DWORD : 0
+Sample Frontend = DWORD : 0
+
+[/Experiment/Security/RPC hosts]
+Allowed hosts = STRING[10] :
+[256] localhost
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+
+[/Experiment/Security]
+Disable RPC hosts check = BOOL : n
+
+[/Experiment/Security/mhttpd hosts]
+Allowed hosts = STRING[10] :
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+[256] 
+
+[/Experiment]
+Name = STRING : [32] Default
+midas http port = INT : 8080
+midas https port = INT : 8443
+http redirect to https = BOOL : y
+
+[/Experiment/Buffer sizes]
+SYSMSG = DWORD : 100000
+SYSTEM = DWORD : 33554432
+
+[/Experiment]
+CSS File = STRING : [256] mhttpd.css
+JS File = STRING : [256] mhttpd.js
+Menu Buttons = STRING : [256] Status, ODB, Messages, Chat, ELog, Alarms, Programs, History, MSCB, Sequencer, Config, Help
+Start-Stop Buttons = BOOL : y
+Pause-Resume Buttons = BOOL : n
+
+[/Experiment/Status items]
+Experiment Name = LINK : [17] /Experiment/Name
+
+[/Experiment]
+MAX_EVENT_SIZE = DWORD : 4194304
+Prevent start on alarms = BOOL : n
+Prevent start on required progs = BOOL : n
+Transition debug flag = INT : 0
+Transition connect timeout = INT : 10000
+Transition timeout = INT : 120000
+
+[/System/Clients/3937]
+Name = STRING : [32] mhttpd
+Host = STRING : [256] localhost
+Hardware type = INT : 44
+Server Port = INT : 42100
+
+[/System/Clients/5983]
+Name = STRING : [32] ODBEdit
+Host = STRING : [256] localhost
+Hardware type = INT : 44
+Server Port = INT : 46234
+
+[/System]
+Client Notify = INT : 0
+Prompt = STRING : [256] [%h:%e:%s]%p>
+
+[/Programs/mhttpd]
+Required = BOOL : n
+Watchdog timeout = INT : 10000
+Check interval = DWORD : 180000
+Start command = STRING : [256] 
+Auto start = BOOL : n
+Auto stop = BOOL : n
+Auto restart = BOOL : n
+Alarm class = STRING : [32] 
+First failed = DWORD : 0
+
+[/Programs/ODBEdit]
+Required = BOOL : n
+Watchdog timeout = INT : 10000
+Check interval = DWORD : 180000
+Start command = STRING : [256] 
+Auto start = BOOL : n
+Auto stop = BOOL : n
+Auto restart = BOOL : n
+Alarm class = STRING : [32] 
+First failed = DWORD : 0
+
+[/Programs/Logger]
+Required = BOOL : n
+Watchdog timeout = INT : 10000
+Check interval = DWORD : 180000
+Start command = STRING : [256] 
+Auto start = BOOL : n
+Auto stop = BOOL : n
+Auto restart = BOOL : n
+Alarm class = STRING : [32] 
+First failed = DWORD : 1442443432
+
+[/Programs/Sample Frontend]
+Required = BOOL : n
+Watchdog timeout = INT : 60000
+Check interval = DWORD : 180000
+Start command = STRING : [256] 
+Auto start = BOOL : n
+Auto stop = BOOL : n
+Auto restart = BOOL : n
+Alarm class = STRING : [32] 
+First failed = DWORD : 1442851351
+
+[/Programs]
+Execute on start run = STRING : [256] 
+Execute on start abort = STRING : [256] 
+Execute on stop run = STRING : [256] 
+
+[/Logger]
+Data dir = STRING : [256] /home/galil/experiment/
+Message file = STRING : [256] midas.log
+Auto restart = BOOL : n
+Write data = BOOL : y
+ODB Dump = BOOL : n
+ODB Dump File = STRING : [256] run%05d.odb
+Auto restart delay = INT : 0
+Tape message = BOOL : y
+
+[/Logger/Channels/0/Settings]
+Active = BOOL : y
+Type = STRING : [8] Disk
+Filename = STRING : [256] run%05d.mid
+Format = STRING : [8] MIDAS
+Compression = INT : 0
+ODB dump = BOOL : y
+Log messages = DWORD : 0
+Buffer = STRING : [32] SYSTEM
+Event ID = INT : -1
+Trigger mask = INT : -1
+Event limit = DOUBLE : 0
+Byte limit = DOUBLE : 0
+Subrun Byte limit = DOUBLE : 0
+Tape capacity = DOUBLE : 0
+Subdir format = STRING : [32] 
+Current filename = STRING : [256] run00001.mid
+
+[/Logger/Channels/0/Statistics]
+Events written = DOUBLE : 1568
+Bytes written = DOUBLE : 134395
+Bytes written uncompressed = DOUBLE : 134395
+Bytes written total = DOUBLE : 134395
+Bytes written subrun = DOUBLE : 131072
+Files written = DOUBLE : 1
+Disk level = DOUBLE : 0.05800253505513586
+
+[/Logger/SQL]
+Create database = BOOL : n
+Write data = BOOL : n
+Hostname = STRING : [80] localhost
+Username = STRING : [80] root
+Password = STRING : [80] 
+Database = STRING : [32] Default
+Table = STRING : [80] Runlog
+Logfile = STRING : [80] sql.log
+
+[/Logger/SQL/Links BOR]
+Run number = LINK : [20] /Runinfo/Run number
+Start time = LINK : [20] /Runinfo/Start time
+
+[/Logger/SQL/Links EOR]
+Stop time = LINK : [19] /Runinfo/Stop time
+
+[/Logger/History/MIDAS]
+Type = STRING : [32] MIDAS
+Active = BOOL : y
+Debug = INT : 0
+PerVariableHistory = INT : 0
+
+[/Logger/History/ODBC]
+Type = STRING : [32] ODBC
+Active = BOOL : n
+Debug = INT : 0
+Writer_ODBC_DSN = STRING : [256] history_writer
+Reader_ODBC_DSN = STRING : [256] history_reader
+
+[/Logger/History/SQLITE]
+Type = STRING : [32] SQLITE
+Active = BOOL : n
+Debug = INT : 0
+Sqlite dir = STRING : [256] 
+
+[/Logger/History/MYSQL]
+Type = STRING : [32] MYSQL
+Active = BOOL : n
+Debug = INT : 0
+MYSQL Writer = STRING : [256] mysql_writer.txt
+MYSQL Reader = STRING : [256] mysql_reader.txt
+
+[/Logger/History/FILE]
+Type = STRING : [32] FILE
+Active = BOOL : n
+Debug = INT : 0
+History dir = STRING : [256] 
+
+[/Logger]
+Run duration = DWORD : 0
+Next subrun = BOOL : n
+Subrun duration = DWORD : 0
+
+[/Runinfo]
+State = INT : 1
+Online Mode = INT : 1
+Run number = INT : 23
+Transition in progress = INT : 0
+Start abort = INT : 0
+Requested transition = INT : 0
+Start time = STRING : [32] Mon Sep 21 11:01:14 2015
+Start time binary = DWORD : 1442851274
+Stop time = STRING : [32] Mon Sep 21 11:02:19 2015
+Stop time binary = DWORD : 1442851339
+
+[/Sequencer/State]
+Path = STRING : [256] /home/galil/
+Filename = STRING : [256] 
+Error = STRING : [256] 
+Error line = INT : 0
+SError line = INT : 0
+Message = STRING : [256] 
+Message Wait = BOOL : n
+Running = BOOL : n
+Finished = BOOL : y
+Paused = BOOL : n
+Current line number = INT : 0
+SCurrent line number = INT : 0
+Stop after run = BOOL : n
+Transition request = BOOL : n
+Loop start line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+SLoop start line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Loop end line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+SLoop end line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Loop counter = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Loop n = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Subdir = STRING : [256] 
+Subdir end line = INT : 0
+Subdir not notify = INT : 0
+If index = INT : 0
+If line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+If else line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+If endif line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Stack index = INT : 0
+Subroutine end line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Subroutine return line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Subroutine call line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+SSubroutine call line = INT[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+Subroutine param = STRING[4] :
+[256] 
+[256] 
+[256] 
+[256] 
+Wait value = FLOAT : 0
+Wait limit = FLOAT : 0
+Start time = DWORD : 0
+Wait type = STRING : [32] 
+Last msg = STRING : [10] 00:00:00
+
+[/Alarms]
+Alarm system active = BOOL : y
+
+[/Alarms/Alarms/Demo ODB]
+Active = BOOL : n
+Triggered = INT : 0
+Type = INT : 3
+Check interval = INT : 60
+Checked last = DWORD : 0
+Time triggered first = STRING : [32] 
+Time triggered last = STRING : [32] 
+Condition = STRING : [256] /Runinfo/Run number > 100
+Alarm Class = STRING : [32] Alarm
+Alarm Message = STRING : [80] Run number became too large
+
+[/Alarms/Alarms/Demo periodic]
+Active = BOOL : n
+Triggered = INT : 0
+Type = INT : 4
+Check interval = INT : 28800
+Checked last = DWORD : 0
+Time triggered first = STRING : [32] 
+Time triggered last = STRING : [32] 
+Condition = STRING : [256] 
+Alarm Class = STRING : [32] Warning
+Alarm Message = STRING : [80] Please do your shift checks
+
+[/Alarms/Classes/Alarm]
+Write system message = BOOL : y
+Write Elog message = BOOL : n
+System message interval = INT : 60
+System message last = DWORD : 0
+Execute command = STRING : [256] 
+Execute interval = INT : 0
+Execute last = DWORD : 0
+Stop run = BOOL : n
+Display BGColor = STRING : [32] red
+Display FGColor = STRING : [32] black
+
+[/Alarms/Classes/Warning]
+Write system message = BOOL : y
+Write Elog message = BOOL : n
+System message interval = INT : 60
+System message last = DWORD : 0
+Execute command = STRING : [256] 
+Execute interval = INT : 0
+Execute last = DWORD : 0
+Stop run = BOOL : n
+Display BGColor = STRING : [32] red
+Display FGColor = STRING : [32] black
+
+[/History/Links/System]
+Trigger per sec. = LINK : [46] /Equipment/Trigger/Statistics/Events per sec.
+Trigger kB per sec. = LINK : [46] /Equipment/Trigger/Statistics/kBytes per sec.
+
+[/History/Events]
+101 = STRING : [7] System
+0 = STRING : [16] Run transitions
+
+[/History]
+DisableTags = BOOL : n
+
+[/History/Tags]
+101 = STRING[3] :
+[96] System
+[96] 10[1] Trigger per sec.
+[96] 10[1] Trigger kB per sec.
+0 = STRING[3] :
+[96] Run transitions
+[96] 6[1] State
+[96] 6[1] Run number
+
+[/History]
+LoggerHistoryChannel = STRING : [32] 
+
+[/History/Display/Default/Trigger rate]
+Variables = STRING[2] :
+[64] System:Trigger per sec.
+[64] System:Trigger kB per sec.
+Time Scale = STRING : [32] 1h
+Factor = FLOAT[2] :
+[0] 1
+[1] 1
+Offset = FLOAT[2] :
+[0] 0
+[1] 0
+Timescale = STRING : [32] 1h
+Zero ylow = BOOL : y
+Show run markers = BOOL : y
+Log axis = BOOL : n
+Show values = BOOL : n
+Sort vars = BOOL : n
+Show old vars = BOOL : n
+Minimum = FLOAT : -inf
+Maximum = FLOAT : inf
+
+[/History/Display/Galil/Positions]
+Timescale = STRING : [32] 1h
+Zero ylow = BOOL : y
+Show run markers = BOOL : y
+Show values = BOOL : n
+Sort Vars = BOOL : n
+Log axis = BOOL : n
+Minimum = FLOAT : 0
+Maximum = FLOAT : 0
+
+[/History]
+MaxDisplayEvents = INT : 20
+MaxDisplayTags = INT : 200
+
+[/History/Display Settings]
+Width Individual = STRING : [256] 640
+Width Group = STRING : [256] Small
+
+[/custom]
+galil monitor& = STRING : [128] /home/galil/experiment/monitor.html
+
+[/Equipment/Trigger/Common]
+Event ID = WORD : 1
+Trigger mask = WORD : 0
+Buffer = STRING : [32] SYSTEM
+Type = INT : 2
+Source = INT : 16777215
+Format = STRING : [8] MIDAS
+Enabled = BOOL : y
+Read on = INT : 257
+Period = INT : 100
+Event limit = DOUBLE : 0
+Num subevents = DWORD : 0
+Log history = INT : 0
+Frontend host = STRING : [32] localhost
+Frontend name = STRING : [32] Sample Frontend
+Frontend file name = STRING : [256] frontend.c
+Status = STRING : [256] Sample Frontend@localhost
+Status color = STRING : [32] greenLight
+Hidden = BOOL : n
+
+[/Equipment/Trigger/Variables]
+ADC0 = WORD[4] :
+[0] 267
+[1] 669
+[2] 80
+[3] 159
+TDC0 = WORD[4] :
+[0] 997
+[1] 25
+[2] 161
+[3] 8
+
+[/Equipment/Trigger/Statistics]
+Events sent = DOUBLE : 3982
+Events per sec. = DOUBLE : 0
+kBytes per sec. = DOUBLE : 0
+
+[/Equipment/Scaler/Common]
+Event ID = WORD : 2
+Trigger mask = WORD : 0
+Buffer = STRING : [32] SYSTEM
+Type = INT : 1
+Source = INT : 0
+Format = STRING : [8] MIDAS
+Enabled = BOOL : y
+Read on = INT : 377
+Period = INT : 10000
+Event limit = DOUBLE : 0
+Num subevents = DWORD : 0
+Log history = INT : 0
+Frontend host = STRING : [32] localhost
+Frontend name = STRING : [32] Sample Frontend
+Frontend file name = STRING : [256] frontend.c
+Status = STRING : [256] Sample Frontend@localhost
+Status color = STRING : [32] greenLight
+Hidden = BOOL : n
+
+[/Equipment/Scaler/Variables]
+SCLR = DWORD[4] :
+[0] 0
+[1] 0
+[2] 0
+[3] 0
+
+[/Equipment/Scaler/Statistics]
+Events sent = DOUBLE : 6
+Events per sec. = DOUBLE : 0
+kBytes per sec. = DOUBLE : 0
+
+[/Equipment/Galil/Variables]
+Setting = INT[3] :
+[0] 200000
+[1] 200000
+[2] 200000
+Position = FLOAT[3] :
+[0] 200000
+[1] 200000
+[2] -42
+Speed = FLOAT[3] :
+[0] 0
+[1] 8
+[2] 0
+Acceleration = FLOAT[3] :
+[0] 19456
+[1] 19456
+[2] 19456
+AXES = FLOAT[3] :
+[0] 200000
+[1] 200000
+[2] -42
+SPID = FLOAT[3] :
+[0] 0
+[1] 8
+[2] 0
+ACCL = FLOAT[3] :
+[0] 19456
+[1] 19456
+[2] 19456
+Condition = INT : 0
+Torque = FLOAT[3] :
+[0] -0.1579
+[1] -0.6725
+[2] 8
+
+[/Equipment/Galil/Common]
+Event ID = WORD : 3
+Trigger mask = WORD : 0
+Buffer = STRING : [32] SYSTEM
+Type = INT : 1
+Source = INT : 0
+Format = STRING : [8] MIDAS
+Enabled = BOOL : y
+Read on = INT : 377
+Period = INT : 1000
+Event limit = DOUBLE : 0
+Num subevents = DWORD : 0
+Log history = INT : 1
+Frontend host = STRING : [32] localhost
+Frontend name = STRING : [32] Sample Frontend
+Frontend file name = STRING : [256] frontend.c
+Status = STRING : [256] Sample Frontend@localhost
+Status color = STRING : [32] greenLight
+Hidden = BOOL : n
+
+[/Equipment/Galil/Statistics]
+Events sent = DOUBLE : 66
+Events per sec. = DOUBLE : 0
+kBytes per sec. = DOUBLE : 0
+
+[/Equipment/Galiltrigger/Common]
+Event ID = WORD : 1
+Trigger mask = WORD : 0
+Buffer = STRING : [32] SYSTEM
+Type = INT : 2
+Source = INT : 0
+Format = STRING : [8] MIDAS
+Enabled = BOOL : y
+Read on = INT : 257
+Period = INT : 100
+Event limit = DOUBLE : 0
+Num subevents = DWORD : 0
+Log history = INT : 0
+Frontend host = STRING : [32] localhost
+Frontend name = STRING : [32] Sample Frontend
+Frontend file name = STRING : [256] frontend.c
+Status = STRING : [256] Sample Frontend@localhost
+Status color = STRING : [32] greenLight
+Hidden = BOOL : n
+
+[/Equipment/Galiltrigger/Statistics]
+Events sent = DOUBLE : 0
+Events per sec. = DOUBLE : 0
+kBytes per sec. = DOUBLE : 0
+
