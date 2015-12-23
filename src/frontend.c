@@ -287,16 +287,16 @@ INT read_galil_event(char *pevent, INT off){
    int size2 = sizeof(getaxes);
    INT size3 = sizeof(allow);
 
-   // db_find_key(hDB,0,"/Equipment/Galil/Variables",&hkeyclient);
-   // read values from Setting in the ODB and store it in vector getaxes
+   // // db_find_key(hDB,0,"/Equipment/Galil/Variables",&hkeyclient);
+   // // read values from Setting in the ODB and store it in vector getaxes
    // db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Setting"  ,&getaxes,&size2,TID_INT, TRUE);
    // // read values from Condition and store it in variable allow
    // db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Condition",&allow  ,&size3,TID_INT, 0);      
 
+   // read values from Setting in the ODB and store it in vector getaxes
    db_get_value(hDB,hkeyclient,SETTINGS_DIR ,&getaxes,&size2,TID_INT, TRUE);
    // read values from Condition and store it in variable allow
    db_get_value(hDB,hkeyclient,CONDITION_DIR,&allow  ,&size3,TID_INT, 0);      
-
 
    // the variable allow is controlled by the user. 
    // Movement only starts if this variable is set to 1. 
