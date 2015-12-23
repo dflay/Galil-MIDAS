@@ -27,6 +27,16 @@
 #include <fstream>
 #include <sstream>
 
+#define SETTINGS_DIR     "/Equipment/Galil/Variables/Setting"
+#define CONDITION_DIR    "/Equipment/Galil/Variables/Condition"
+
+#define POSITION_DIR     "/Equipment/Galil/Variables/Position"    
+#define SPEED_DIR        "/Equipment/Galil/Variables/Speed"       
+#define ACCELERATION_DIR "/Equipment/Galil/Variables/Acceleration"
+#define TORQUE_DIR       "/Equipment/Galil/Variables/Torque"      
+
+#define USB_HANDLE       "/dev/ttyUSB0 -t 1000 -s MG -d"
+
 #define GALIL_EXAMPLE_OK G_NO_ERROR //return code for correct code execution
 #define GALIL_EXAMPLE_ERROR -100
 using namespace std;
@@ -37,6 +47,10 @@ extern "C" {
 #endif
 
    ofstream myfile; 
+   ofstream fInputFile; 
+
+   // const char *fFileName = "/home/galil/experiment/galilmove.dmc";
+   const char *fFileName = "./input/dmc/galilmove.dmc";
 
    // i am defining some Galil libraries variables
    INT level1=2;
@@ -173,14 +187,15 @@ resume_run:     When a run is resumed. Should enable trigger events.
 //______________________________________________________________________________
 INT frontend_init()
 {
-   // FIXME: this needs to be removed; put this in a text file and read it in. 
- 
-   myfile.open("/home/galil/experiment/galilmove.dmc");
-   myfile <<"#MOVE\nKIA=0.1\nKPA=103\nKDA=2268\nSPA=400\nACA=20000\nTLA=3\nKIB=1\nKPB=103\nKDB=2268\nSPB=8000\nACB=20000\nTLB=8\nKIC=1\nKPC=103\nKDC=2268\nSPC=8000\nACC=20000\nTLC=8\n#A\npos=_TPA\npos1=_TPB\npos2=_TPC\nsp=_TVA\nsp1=_TVB\nsp2=_TVC\nacc=_ACA\nacc1=_ACB\nacc2=_ACC\ntor=_TTA\ntor1=_TTB\ntor2=_TTC\nMG pos, pos1, pos2, sp, sp1, sp2, acc, acc1, acc2, tor, tor1, tor2\nWT500\nJP#A\nEN\n";
-   myfile.close();
+    
+   // // FIXME: this needs to be removed; put this in a text file. 
+   // myfile.open("/home/galil/experiment/galilmove.dmc");
+   // myfile <<"#MOVE\nKIA=0.1\nKPA=103\nKDA=2268\nSPA=400\nACA=20000\nTLA=3\nKIB=1\nKPB=103\nKDB=2268\nSPB=8000\nACB=20000\nTLB=8\nKIC=1\nKPC=103\nKDC=2268\nSPC=8000\nACC=20000\nTLC=8\n#A\npos=_TPA\npos1=_TPB\npos2=_TPC\nsp=_TVA\nsp1=_TVB\nsp2=_TVC\nacc=_ACA\nacc1=_ACB\nacc2=_ACC\ntor=_TTA\ntor1=_TTB\ntor2=_TTC\nMG pos, pos1, pos2, sp, sp1, sp2, acc, acc1, acc2, tor, tor1, tor2\nWT500\nJP#A\nEN\n";
+   // myfile.close();
 
    // RS-232/USB 
-   b=GOpen("/dev/ttyUSB0 -t 1000 -s MG -d", &g);
+   // b = GOpen("/dev/ttyUSB0 -t 1000 -s MG -d", &g);
+   b = GOpen(USB_HANDLE, &g);
    // ethernet 
    //GOpen("192.168.1.42 -s ALL -t 1000 -d",&g);        
    //GOpen("00:50:4c:38:19:AA -s ALL -t 1000 -d", &g);
@@ -191,8 +206,8 @@ INT frontend_init()
    }
    else {cout << "connection failed \n";}
 
-   GProgramDownload(g,"",0); //to erase prevoius programs
-   b=GProgramDownloadFile(g,"/home/galil/experiment/galilmove.dmc",0);
+   GProgramDownload(g,"",0);               // to erase prevoius programs
+   b=GProgramDownloadFile(g,fFileName,0);
    GCmd(g, "XQ");
 
    GTimeout(g,2000);//adjust timeout
@@ -275,9 +290,14 @@ INT read_galil_event(char *pevent, INT off){
 
    // db_find_key(hDB,0,"/Equipment/Galil/Variables",&hkeyclient);
    // read values from Setting in the ODB and store it in vector getaxes
-   db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Setting"  ,&getaxes,&size2,TID_INT, TRUE);
+   // db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Setting"  ,&getaxes,&size2,TID_INT, TRUE);
+   // // read values from Condition and store it in variable allow
+   // db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Condition",&allow  ,&size3,TID_INT, 0);      
+
+   db_get_value(hDB,hkeyclient,SETTINGS_DIR ,&getaxes,&size2,TID_INT, TRUE);
    // read values from Condition and store it in variable allow
-   db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Condition",&allow  ,&size3,TID_INT, 0);      
+   db_get_value(hDB,hkeyclient,CONDITION_DIR,&allow  ,&size3,TID_INT, 0);      
+
 
    // the variable allow is controlled by the user. 
    // Movement only starts if this variable is set to 1. 
@@ -296,7 +316,8 @@ INT read_galil_event(char *pevent, INT off){
       GCmd(g,"BGC");
       // finsihed sending commands to Galil, set allow to zero. 
       allow=0;
-      db_set_value(hDB,0,"/Equipment/Galil/Variables/Condition",&allow,sizeof(allow),1,TID_INT);
+      // db_set_value(hDB,0,"/Equipment/Galil/Variables/Condition",&allow,sizeof(allow),1,TID_INT);
+      db_set_value(hDB,0,CONDITION_DIR,&allow,sizeof(allow),1,TID_INT);
    }
 
    rc = GMessage(g, buf1, sizeof(buf1));
@@ -320,10 +341,15 @@ INT read_galil_event(char *pevent, INT off){
    //update ODB
    cm_get_experiment_database(&hDB, NULL);
 
-   db_set_value(hDB,0,"/Equipment/Galil/Variables/Position"    ,&axes        , sizeof(axes)       ,3,TID_FLOAT);
-   db_set_value(hDB,0,"/Equipment/Galil/Variables/Speed"       ,&speed       ,sizeof(speed)       ,3,TID_FLOAT);
-   db_set_value(hDB,0,"/Equipment/Galil/Variables/Acceleration",&acceleration,sizeof(acceleration),3,TID_FLOAT);
-   db_set_value(hDB,0,"/Equipment/Galil/Variables/Torque"      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
+   // db_set_value(hDB,0,"/Equipment/Galil/Variables/Position"    ,&axes        , sizeof(axes)       ,3,TID_FLOAT);
+   // db_set_value(hDB,0,"/Equipment/Galil/Variables/Speed"       ,&speed       ,sizeof(speed)       ,3,TID_FLOAT);
+   // db_set_value(hDB,0,"/Equipment/Galil/Variables/Acceleration",&acceleration,sizeof(acceleration),3,TID_FLOAT);
+   // db_set_value(hDB,0,"/Equipment/Galil/Variables/Torque"      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
+
+   db_set_value(hDB,0,POSITION_DIR    ,&axes        ,sizeof(axes)        ,3,TID_FLOAT);
+   db_set_value(hDB,0,SPEED_DIR       ,&speed       ,sizeof(speed)       ,3,TID_FLOAT);
+   db_set_value(hDB,0,ACCELERATION_DIR,&acceleration,sizeof(acceleration),3,TID_FLOAT);
+   db_set_value(hDB,0,TORQUE_DIR      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
 
    bk_init32(pevent);
 
