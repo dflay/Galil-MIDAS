@@ -29,7 +29,6 @@
 
 #define SETTINGS_DIR     "/Equipment/Galil/Variables/Setting"
 #define CONDITION_DIR    "/Equipment/Galil/Variables/Condition"
-
 #define POSITION_DIR     "/Equipment/Galil/Variables/Position"    
 #define SPEED_DIR        "/Equipment/Galil/Variables/Speed"       
 #define ACCELERATION_DIR "/Equipment/Galil/Variables/Acceleration"
