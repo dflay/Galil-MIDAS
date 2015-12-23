@@ -27,14 +27,14 @@
 #include <fstream>
 #include <sstream>
 
-#define SETTINGS_DIR     "/Equipment/Galil/Variables/Setting"
-#define CONDITION_DIR    "/Equipment/Galil/Variables/Condition"
-#define POSITION_DIR     "/Equipment/Galil/Variables/Position"    
-#define SPEED_DIR        "/Equipment/Galil/Variables/Speed"       
-#define ACCELERATION_DIR "/Equipment/Galil/Variables/Acceleration"
-#define TORQUE_DIR       "/Equipment/Galil/Variables/Torque"      
+#define SETTINGS     "/Equipment/Galil/Variables/Setting"
+#define CONDITION    "/Equipment/Galil/Variables/Condition"
+#define POSITION     "/Equipment/Galil/Variables/Position"    
+#define SPEED        "/Equipment/Galil/Variables/Speed"       
+#define ACCELERATION "/Equipment/Galil/Variables/Acceleration"
+#define TORQUE       "/Equipment/Galil/Variables/Torque"      
 
-#define USB_HANDLE       "/dev/ttyUSB0 -t 1000 -s MG -d"
+#define USB_HANDLE   "/dev/ttyUSB0 -t 1000 -s MG -d"
 
 #define GALIL_EXAMPLE_OK G_NO_ERROR //return code for correct code execution
 #define GALIL_EXAMPLE_ERROR -100
@@ -294,9 +294,9 @@ INT read_galil_event(char *pevent, INT off){
    // db_get_value(hDB,hkeyclient,"/Equipment/Galil/Variables/Condition",&allow  ,&size3,TID_INT, 0);      
 
    // read values from Setting in the ODB and store it in vector getaxes
-   db_get_value(hDB,hkeyclient,SETTINGS_DIR ,&getaxes,&size2,TID_INT, TRUE);
+   db_get_value(hDB,hkeyclient,SETTINGS ,&getaxes,&size2,TID_INT, TRUE);
    // read values from Condition and store it in variable allow
-   db_get_value(hDB,hkeyclient,CONDITION_DIR,&allow  ,&size3,TID_INT, 0);      
+   db_get_value(hDB,hkeyclient,CONDITION,&allow  ,&size3,TID_INT, 0);      
 
    // the variable allow is controlled by the user. 
    // Movement only starts if this variable is set to 1. 
@@ -316,7 +316,7 @@ INT read_galil_event(char *pevent, INT off){
       // finsihed sending commands to Galil, set allow to zero. 
       allow=0;
       // db_set_value(hDB,0,"/Equipment/Galil/Variables/Condition",&allow,sizeof(allow),1,TID_INT);
-      db_set_value(hDB,0,CONDITION_DIR,&allow,sizeof(allow),1,TID_INT);
+      db_set_value(hDB,0,CONDITION,&allow,sizeof(allow),1,TID_INT);
    }
 
    rc = GMessage(g, buf1, sizeof(buf1));
@@ -345,10 +345,10 @@ INT read_galil_event(char *pevent, INT off){
    // db_set_value(hDB,0,"/Equipment/Galil/Variables/Acceleration",&acceleration,sizeof(acceleration),3,TID_FLOAT);
    // db_set_value(hDB,0,"/Equipment/Galil/Variables/Torque"      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
 
-   db_set_value(hDB,0,POSITION_DIR    ,&axes        ,sizeof(axes)        ,3,TID_FLOAT);
-   db_set_value(hDB,0,SPEED_DIR       ,&speed       ,sizeof(speed)       ,3,TID_FLOAT);
-   db_set_value(hDB,0,ACCELERATION_DIR,&acceleration,sizeof(acceleration),3,TID_FLOAT);
-   db_set_value(hDB,0,TORQUE_DIR      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
+   db_set_value(hDB,0,POSITION    ,&axes        ,sizeof(axes)        ,3,TID_FLOAT);
+   db_set_value(hDB,0,SPEED       ,&speed       ,sizeof(speed)       ,3,TID_FLOAT);
+   db_set_value(hDB,0,ACCELERATION,&acceleration,sizeof(acceleration),3,TID_FLOAT);
+   db_set_value(hDB,0,TORQUE      ,&torque      ,sizeof(torque)      ,3,TID_FLOAT);
 
    bk_init32(pevent);
 
